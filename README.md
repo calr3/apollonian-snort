@@ -176,9 +176,58 @@ from a triangle by repeatedly stacking a vertex into *any* face, also called Apo
 networks in the broad sense. To see which features are special to Aₙ, every planar 3-tree
 with at most 14 vertices was evaluated: 72,390 graphs up to isomorphism. The class counts
 1, 1, 1, 1, 3, 7, 24, 93, 434, 2110, 11002, 58713 for 3, …, 14 vertices agree with OEIS
-A027610. So were RANDOM_COUNT random ones with up to 32 vertices.
+A027610. So were 860 random ones with up to 32 vertices.
 
-SURVEY_TABLES
+**All planar 3-trees** (exhaustive, up to isomorphism):
+
+| \|V\| | graphs | pure switch ±x | t = Δ | max (t − Δ) | min t/Δ | mean t/Δ | first-player win |
+|---|---|---|---|---|---|---|---|
+| 3 | 1 | 1 | 1 | 0 | 1.000 | 1.000 | 1 |
+| 4 | 1 | 1 | 1 | 0 | 1.000 | 1.000 | 1 |
+| 5 | 1 | 1 | 1 | 0 | 1.000 | 1.000 | 1 |
+| 6 | 1 | 1 | 1 | 0 | 1.000 | 1.000 | 1 |
+| 7 | 3 | 3 | 3 | 0 | 1.000 | 1.000 | 3 |
+| 8 | 7 | 4 | 4 | 0 | 0.750 | 0.893 | 7 |
+| 9 | 24 | 12 | 12 | 0 | 0.750 | 0.891 | 24 |
+| 10 | 93 | 27 | 27 | 0 | 0.643 | 0.859 | 93 |
+| 11 | 434 | 82 | 82 | 0 | 0.500 | 0.845 | 434 |
+| 12 | 2110 | 249 | 228 | 0 | 0.333 | 0.836 | 2110 |
+| 13 | 11002 | 1039 | 733 | 0 | 0.429 | 0.826 | 11002 |
+| 14 | 58713 | 4499 | 2290 | 0 | 0.286 | 0.820 | 58713 |
+
+**Random planar 3-trees** (each new vertex stacked into a uniformly random face):
+
+| \|V\| | graphs | pure switch ±x | t = Δ | max (t − Δ) | min t/Δ | mean t/Δ | first-player win |
+|---|---|---|---|---|---|---|---|
+| 4 | 40 | 40 | 40 | 0 | 1.000 | 1.000 | 40 |
+| 5 | 40 | 40 | 40 | 0 | 1.000 | 1.000 | 40 |
+| 6 | 40 | 40 | 40 | 0 | 1.000 | 1.000 | 40 |
+| 7 | 40 | 40 | 40 | 0 | 1.000 | 1.000 | 40 |
+| 8 | 40 | 25 | 25 | 0 | 0.750 | 0.906 | 40 |
+| 9 | 40 | 23 | 23 | 0 | 0.750 | 0.907 | 40 |
+| 10 | 40 | 9 | 9 | 0 | 0.786 | 0.849 | 40 |
+| 11 | 40 | 4 | 4 | 0 | 0.607 | 0.830 | 40 |
+| 12 | 40 | 5 | 5 | 0 | 0.667 | 0.848 | 40 |
+| 13 | 40 | 7 | 3 | 0 | 0.667 | 0.834 | 40 |
+| 14 | 40 | 2 | 1 | 0 | 0.611 | 0.834 | 40 |
+| 15 | 40 | 1 | 0 | -1 | 0.694 | 0.805 | 40 |
+| 16 | 40 | 0 | 0 | -1/2 | 0.600 | 0.820 | 40 |
+| 17 | 40 | 0 | 0 | -3/4 | 0.659 | 0.796 | 40 |
+| 18 | 40 | 0 | 0 | -1 | 0.659 | 0.819 | 40 |
+| 19 | 25 | 1 | 0 | -9/8 | 0.688 | 0.809 | 25 |
+| 20 | 25 | 0 | 0 | -5/4 | 0.625 | 0.808 | 25 |
+| 21 | 25 | 0 | 0 | -1/4 | 0.696 | 0.837 | 25 |
+| 22 | 25 | 0 | 0 | -9/8 | 0.679 | 0.815 | 25 |
+| 23 | 25 | 1 | 1 | 0 | 0.641 | 0.810 | 25 |
+| 24 | 25 | 0 | 0 | -3/4 | 0.673 | 0.835 | 25 |
+| 25 | 25 | 0 | 0 | -5/4 | 0.661 | 0.811 | 25 |
+| 26 | 25 | 0 | 0 | -9/8 | 0.620 | 0.787 | 25 |
+| 27 | 10 | 0 | 0 | -15/8 | 0.712 | 0.805 | 10 |
+| 28 | 10 | 0 | 0 | -3/2 | 0.691 | 0.820 | 10 |
+| 29 | 10 | 0 | 0 | -11/8 | 0.759 | 0.838 | 10 |
+| 30 | 10 | 0 | 0 | -9/4 | 0.738 | 0.788 | 10 |
+| 31 | 10 | 0 | 0 | -7/8 | 0.788 | 0.857 | 10 |
+| 32 | 10 | 0 | 0 | -1/2 | 0.667 | 0.820 | 10 |
 
 Findings:
 
@@ -237,7 +286,7 @@ Let c be the centre of Aₙ and Cₙ the position after Left colours it.
    (a first-player win) and **t(G) ≤ Δ(G)**. This is the "temperature ≤ degree" conjecture
    of Huntemann–Nowakowski–Santos (2019) restricted to planar 3-trees. That conjecture is
    false for general graphs: Huntemann and Maciosowski (2024) give caterpillars with
-   t = 2Δ − 3. *(Verified exhaustively for |V| ≤ 14 (72,390 graphs) and on RANDOM_COUNT
+   t = 2Δ − 3. *(Verified exhaustively for |V| ≤ 14 (72,390 graphs) and on 860
    random examples with |V| ≤ 32.)* Equality holds whenever G has a universal vertex. The
    converse holds up to 13 vertices but fails at 14 (Section 5), so it is not part of the
    conjecture.
@@ -283,8 +332,10 @@ python3 explore.py 3                   # Sections 2 table, depths 0–3 (seconds
 python3 explore.py 4                   # adds depth 4 (C++; DEPTH4_TIME, a few GB of RAM)
 python3 explore.py 3 --both-faces      # Section 6
 python3 blocks.py 4                    # Section 4
-python3 enumerate_3trees.py 13 > data/planar3trees.jsonl
+python3 enumerate_3trees.py 13 > data/planar3trees.jsonl   # n = 14 adds ~1 h; stored compactly
 python3 random_apollonian.py 4 18 40 1 > data/random_apollonian.jsonl
+python3 random_apollonian.py 19 26 25 2 > data/random_apollonian_large.jsonl
+python3 random_apollonian.py 27 32 10 3 > data/random_apollonian_xl.jsonl
 python3 summarize.py                   # Section 5 tables
 python3 figure.py > docs/apollonian.svg
 ```
