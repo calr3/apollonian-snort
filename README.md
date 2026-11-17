@@ -105,7 +105,7 @@ canonical form keeps a single Left option, and the value collapses to the pure s
 ### How depth 4 was settled
 
 The game tree of A₄ is too large to search exhaustively. The first move at a single degree-6
-vertex alone generated more than 1.2·10⁸ distinct components and 10 GB of memo before it was
+vertex alone generated more than 10⁸ new distinct components (10 GB of memo) before it was
 stopped. Instead (`depth4.py`):
 
 1. C₄ = {23 | 22} and the corner and level-2 first moves were computed exactly. The latter
@@ -396,7 +396,8 @@ P_d = 1 + X_{v,d}.
     second-player win;
   * values with and without component decomposition, known values (Kₙ = ±(n−1), stars
     K₁,ₙ = ±n), thermographs, the C++ back end against the Python reference, and the
-    planar-3-tree counts.
+    planar-3-tree counts;
+  * Lemmas A and B (Section 8) on hundreds of random positions.
 
 ```
 python3 tests/test_engine.py           # all checks (about a minute)
