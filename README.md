@@ -174,9 +174,9 @@ Observations:
 Aₙ is the most symmetric member of the class of **planar 3-trees**: triangulations built
 from a triangle by repeatedly stacking a vertex into *any* face, also called Apollonian
 networks in the broad sense. To see which features are special to Aₙ, every planar 3-tree
-with at most 13 vertices was evaluated (13,677 graphs up to isomorphism; the class counts
-1, 1, 1, 1, 3, 7, 24, 93, 434, 2110, 11002 for 3, …, 13 vertices agree with OEIS A027610). So were 1,000 random
-ones with up to 26 vertices.
+with at most 14 vertices was evaluated: 72,390 graphs up to isomorphism. The class counts
+1, 1, 1, 1, 3, 7, 24, 93, 434, 2110, 11002, 58713 for 3, …, 14 vertices agree with OEIS
+A027610. So were RANDOM_COUNT random ones with up to 32 vertices.
 
 SURVEY_TABLES
 
@@ -184,12 +184,16 @@ Findings:
 
 * **Every** planar 3-tree in both samples is hot (a first-player win), and **every** one
   satisfies t ≤ Δ.
-* Among all planar 3-trees on ≤ 13 vertices, **t = Δ holds exactly when the graph has a
-  vertex adjacent to all others** (1,093 graphs; then the value is ±Δ). The counts with
-  t = Δ, namely 4, 12, 27, 82, 228, 733, are the numbers of triangulated polygons up to
-  symmetry (OEIS A000207), as they must be.
+* Up to 13 vertices, **t = Δ holds exactly when the graph has a vertex adjacent to all
+  others** (then the value is ±Δ). The counts with t = Δ, namely 4, 12, 27, 82, 228, 733 for
+  8, …, 13 vertices, are exactly the numbers of triangulated polygons up to symmetry
+  (OEIS A000207), i.e. of planar 3-trees with a universal vertex. **At 14 vertices this
+  breaks:** besides the 2,282 graphs with a universal vertex, 8 graphs with Δ = 8 have
+  t = 8. Their best move is not a number but a hot option with mean exactly Δ, e.g.
+  ±({12 | 4, 4±2}). Their edge lists are in `data/planar3trees_14.jsonl`.
 * Pure switches ±x without a universal vertex are rare: 21 graphs on 12 vertices are ±6 with
-  Δ = 9, and 306 on 13 vertices are ±7. A₃ = ±10 (Δ = 12) belongs to this group.
+  Δ = 9, 306 on 13 vertices are ±7, and 2,217 on 14 vertices are ±8 (Δ = 10 or 11).
+  A₃ = ±10 (Δ = 12) belongs to this group.
 * The temperature of a planar 3-tree can be much smaller than Δ. The coldest case on 12
   vertices has t = 2, Δ = 6. Such cases are path-like stackings: for the cube of a path
   Pₘ³ (vertex i joined to i±1, i±2, i±3, the "linear" planar 3-tree) the temperature stays
@@ -230,11 +234,13 @@ Let c be the centre of Aₙ and Cₙ the position after Left colours it.
    pocket-sharing mechanism of Section 3. A safer version is t(Aₙ) = Θ(2ⁿ), i.e.
    εΔ ≤ t(Aₙ) ≤ Δ for some ε > 0.)*
 4. **(Planar 3-trees obey the degree bound.)** For every planar 3-tree G, Snort on G is hot
-   (a first-player win) and **t(G) ≤ Δ(G), with equality iff G has a universal vertex.**
-   This is the "temperature ≤ degree" conjecture of Huntemann–Nowakowski–Santos (2019)
-   restricted to planar 3-trees. That conjecture is false for general graphs: Huntemann and
-   Maciosowski (2024) give caterpillars with t = 2Δ − 3. *(Verified exhaustively for
-   |V| ≤ 13 and on 1,000 random examples with |V| ≤ 26.)*
+   (a first-player win) and **t(G) ≤ Δ(G)**. This is the "temperature ≤ degree" conjecture
+   of Huntemann–Nowakowski–Santos (2019) restricted to planar 3-trees. That conjecture is
+   false for general graphs: Huntemann and Maciosowski (2024) give caterpillars with
+   t = 2Δ − 3. *(Verified exhaustively for |V| ≤ 14 (72,390 graphs) and on RANDOM_COUNT
+   random examples with |V| ≤ 32.)* Equality holds whenever G has a universal vertex. The
+   converse holds up to 13 vertices but fails at 14 (Section 5), so it is not part of the
+   conjecture.
 5. **(Means are tint counts up to O(1).)** For the positions arising in Aₙ (pockets,
    resolved interiors, Cₙ), |mean − (#Left-tinted − #Right-tinted)| stays bounded
    independently of the depth. All computed cases are within 2. Conjecture 3 is the special
