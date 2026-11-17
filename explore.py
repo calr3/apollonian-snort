@@ -6,7 +6,8 @@ usage:  python3 explore.py [max_depth] [--both-faces] [--python]
 
 The C++ back end (csrc/snort.cpp, built automatically) is used by default;
 --python uses the pure-Python reference implementation instead (fine up to
-depth 3).  Depth 4 takes a while and a few GB of RAM with the C++ back end.
+depth 3).  Depth 4 is beyond exhaustive evaluation (a single first move needs
+over 10^8 components); see depth4.py for how its value is determined.
 """
 
 from __future__ import annotations

@@ -1,9 +1,10 @@
 """
-Partial analysis of Snort on A4 (43 vertices).
+Snort on A4 (43 vertices), determined without exhaustive search.
 
-The full canonical form of A4 is out of reach: a single first move at a
-degree-6 vertex already generates over 10^8 distinct components.  This script
-records what *can* be established rigorously:
+Exhaustive evaluation of A4 is out of reach: a single first move at a degree-6
+vertex already generates over 10^8 distinct components.  This script instead
+shows that every Left first move is <= C4 (the centre move), which gives
+A4 = {C4 | -C4}.  It computes:
 
   * C4, the position after Left colours the centre d, exactly;
   * for every other first move v and every "hub" u among the seven vertices of
@@ -23,9 +24,9 @@ Left colours u.
 Both are proved by mirror strategies (see README) and are checked on random
 positions in tests/test_engine.py.
 
-usage: python3 depth4.py [--exact]      (--exact adds the corner and level-2
-                                          moves: ~15 min, ~3 GB RAM; the hub
-                                          bounds take ~10 min per class)
+usage: python3 depth4.py --exact        (the corner and level-2 moves are
+                                          computed exactly: ~15 min, ~3 GB RAM;
+                                          the hub bounds take ~10 min per class)
 """
 
 from __future__ import annotations
@@ -66,6 +67,26 @@ def main():
         for v in (0, 4):  # corner and level-2 moves
             P[v] = snortc.evaluate(g, [after_left(v)], G, trust=True, big=True, progress=True)[0]
 
+    def second_criterion(v, best):
+        """P_v <= C4 iff no C4^R <= P_v and no P_v^L >= C4.
+
+        C4^R <= P_v is excluded when mean(P_v) < mean(C4^R).  The Left options
+        of P_v are the X_{v,w}; for hubs w they are compared with C4 directly,
+        otherwise X_{v,w} >= C4 is excluded by mean(X_{v,w}) <= 1 + mean(X_{v,w,u})
+        < mean(C4), with u the best hub for v.
+        """
+        if any(best[0] >= G.mean(r) for r in G.Ro[C4]):
+            return False
+        u = best[1]
+        far = [w for w in range(g.n) if w != v and w not in hubs]
+        for w in hubs:
+            if w != v:
+                x = snortc.evaluate(g, [after_left(v, w)], G, trust=True, big=True)[0]
+                if G.le(C4, x):
+                    return False
+        ys = snortc.evaluate(g, [after_left(v, w, u) for w in far], G, trust=True, big=True)
+        return all(1 + G.mean(y) < G.mean(C4) for y in ys)
+
     rows = []
     mean_bound = G.mean(C4)
     # Left stop of A4 = max over Left options of their Right stop; R(P) <= mean(P)
@@ -94,21 +115,32 @@ def main():
                     best = (b, u)
                 if dom_hub is None and G.le(G.add(G.ONE, x), C4):
                     dom_hub = u
-            row.update(mean_upper_bound=fmt(best[0]), best_hub=best[1],
-                       status=(f"dominated by C4 (1 + X_v,u <= C4 with u = {dom_hub})"
-                               if dom_hub is not None else "unresolved"))
+            status = (f"dominated by C4 (1 + X_v,u <= C4 with u = {dom_hub})"
+                      if dom_hub is not None else "unresolved")
+            if dom_hub is None and second_criterion(v, best):
+                status = "dominated by C4 (second criterion: no Left option of P_v is >= C4)"
+            row.update(mean_upper_bound=fmt(best[0]), best_hub=best[1], status=status)
             mean_bound = max(mean_bound, best[0])
             stop_bound = max(stop_bound, best[0])
         rows.append(row)
         print(row, flush=True)
+    all_dominated = all(r["status"].startswith(("dominated", "exact; dominated", "centre"))
+                        for r in rows)
+    A4 = G.canon([C4], [G.neg(C4)]) if all_dominated else None
     summary = {
         "C4": G.show(C4),
+        "A4": G.show(A4) if A4 is not None else None,
+        "A4_temperature": fmt(G.temperature(A4)) if A4 is not None else None,
+        "A4_stops": [fmt(x) for x in G.stops(A4)] if A4 is not None else None,
         "temperature_lower_bound": fmt(G.mean(C4)),
         "temperature_upper_bound": fmt(mean_bound),
         "left_stop_lower_bound": fmt(G.stops(C4)[1]),
         "left_stop_upper_bound": fmt(stop_bound),
         "first_moves": rows,
     }
+    if A4 is not None:
+        print("every first move is <= C4, so A4 =", summary["A4"], "temperature", summary["A4_temperature"],
+              "stops", summary["A4_stops"])
     print(summary["temperature_lower_bound"], "<= t(A4) <=", summary["temperature_upper_bound"])
     print(summary["left_stop_lower_bound"], "<= Left stop of A4 <=", summary["left_stop_upper_bound"])
     if exact:

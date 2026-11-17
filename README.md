@@ -15,12 +15,14 @@ conjectures for the general case.
 | 1 | 4 | ±3 | 3 | 3 |
 | 2 | 7 | ±6 | 6 | 6 |
 | 3 | 16 | ±10 | 10 | 12 |
-| 4 | 43 | DEPTH4_VALUE | DEPTH4_TEMP | 24 |
+| 4 | 43 | ±(45/2±1/2) = {{23 \| 22} \| {−22 \| −23}} | 45/2 | 24 |
 
-For every depth computed, Left's best first move is the **centre** (the first inserted
-vertex), and the game is a switch {Cₙ | −Cₙ}. Here Cₙ is the position after Left colours the
-centre. Cₙ is an integer for n ≤ 3 (3, 6, 10) but **not** at n = 4, where C₄ = {23 | 22}.
-Section 7 lists the conjectures.
+At every depth computed, Left's best first move is the **centre** d (the first inserted
+vertex). Every other first move is dominated by it, so the value is the switch {Cₙ | −Cₙ},
+where Cₙ is the position after Left colours d. Cₙ is an integer for n ≤ 3 (3, 6, 10) but
+**not** at n = 4, where C₄ = {23 | 22}. Depth 4 is too large to search exhaustively; it was
+settled by computing C₄ and two other first moves exactly and bounding the remaining 36 with
+two Snort lemmas (Sections 2 and 8). Section 7 lists the conjectures.
 
 ---
 
@@ -62,10 +64,11 @@ From depth 2 on, the centre is the unique vertex of maximum degree, Δ(Aₙ) = 3
 | 1 | 4 | 6 | 3 | ±3 | 3 | 3 / −3 | 𝒩 | 8 | 4 |
 | 2 | 7 | 15 | 6 | ±6 | 6 | 6 / −6 | 𝒩 | 14 | 7 |
 | 3 | 16 | 42 | 12 | ±10 | 10 | 10 / −10 | 𝒩 | 22 | 11 |
-| 4 | 43 | 123 | 24 | DEPTH4_VALUE | DEPTH4_TEMP | DEPTH4_STOPS | 𝒩 | DEPTH4_SIZE | DEPTH4_BDAY |
+| 4 | 43 | 123 | 24 | ±(45/2±1/2) | 45/2 | 22 / −22 | 𝒩 | 50 | 25 |
 
-*Mean* is 0 throughout. 𝒩 means the first player wins. Depth 5 has 124 vertices and is out of
-reach of the exhaustive method used here (Section 8).
+*Mean* is 0 throughout. 𝒩 means the first player wins. Depths 0–3 are exhaustive
+computations (under a second). Depth 4 combines exact computation with two lemmas, as
+explained below. Depth 5 (124 vertices) is out of reach.
 
 Depths 0–2 are instances of a simple fact, also noted by Huntemann–Nowakowski–Santos: a
 graph on m+1 vertices with a vertex u adjacent to all others has Snort value ±m. Proof: any
@@ -89,22 +92,53 @@ group. Right's moves are the negatives. "≤ C" means the move is dominated by t
 | 3 | level 2 (2, 6) | {{13 \| 8±1} \| −2, ±4} | 17/4 | 25/4 | yes |
 | 3 | level 3 (3, 3), next to the centre | {9 \| {−3 \| −17/2±1/2}} | 13/8 | 59/8 | yes |
 | 3 | level 3 (3, 3), next to a corner | {{13 \| 8±1} \| {−13/2±1/2 \| −10}} | 9/8 | 75/8 | yes |
-DEPTH4_MOVES
+| 4 | corner (0, 17) | {{{39 \| {67/2±1/2 \| 30}} \| 45/2±1/2} \| 5} | 543/32 | 383/32 | yes |
+| 4 | **centre (1, 24)** | **{23 \| 22} = 45/2±1/2** | 45/2 | 1/2 | — |
+| 4 | level 2 (2, 12) | {{{{38 \| 67/2±1/2} \| 61/2±1/2} \| {{26 \| 45/2±1/2} \| 29/2±1/2}} \| −5, ±({27/2±1/2 \| 7})} | 85/8 | 125/8 | yes |
+| 4 | level 3 (3, 6): 6 vertices next to the centre, 3 not | not computed | ≤ 45/2 | | yes, by Lemmas A–B |
+| 4 | level 4 (4, 3): 12 next to the centre, 15 not | not computed | ≤ 45/2 | | yes, by Lemmas A–B |
 
 At depth 3 the corner move K = {{13|10} | 2} has Left option {13|10}, which is *confused
 with* 10 ({3|0} is a first-player win). K is nevertheless ≤ 10 and therefore dominated. So the
 canonical form keeps a single Left option, and the value collapses to the pure switch ±10.
 
+### How depth 4 was settled
+
+The game tree of A₄ is too large to search exhaustively. The first move at a single degree-6
+vertex alone generated more than 1.2·10⁸ distinct components and 10 GB of memo before it was
+stopped. Instead (`depth4.py`):
+
+1. C₄ = {23 | 22} and the corner and level-2 first moves were computed exactly. The latter
+   two are ≤ C₄.
+2. For every first move v and every vertex u, Lemmas A and B (Section 8) give
+   **P_v ≤ 1 + X_{v,u}**. Here P_v is the position after Left colours v, and X_{v,u} is the
+   much smaller position after Left has coloured both v and u. For 33 of the remaining 36
+   vertices, some "hub" u of level ≤ 2 already gives 1 + X_{v,u} ≤ C₄. For the 12 level-4
+   neighbours of the centre this is an equality.
+3. The last orbit is the 3 level-3 vertices v lying in a face with two corners and a level-2
+   vertex. It is handled by the definition of ≤: P_v ≤ C₄ iff C₄'s Right option 22 is not
+   ≤ P_v, and no Left option X_{v,w} of P_v is ≥ C₄.
+   * Let u be the level-2 vertex adjacent to v. The first condition holds because
+     mean(P_v) ≤ 1 + mean(X_{v,u}) = 47/4 < 22.
+   * For the seven hubs w, X_{v,w} is compared with C₄ directly.
+   * For the other 35 vertices w, mean(X_{v,w}) ≤ 1 + mean(X_{v,w,u}) ≤ 277/16, where X_{v,w,u}
+     has v, w and u coloured by Left. This is below mean(C₄) = 45/2.
+
+So every Left first move is ≤ C₄. The centre move is not reversible, since 22 ≰ A₄. Hence
+**A₄ = {C₄ | −C₄} = ±(45/2±1/2)**, with temperature 45/2 and stops ±22. This relies on the
+two lemmas, which are proved in Section 8 and also tested on random positions, together with
+machine evaluation of the smaller positions.
+
 ## 3. Anatomy of the centre move
 
-After Left colours the centre c, its Δ = 3·2ⁿ⁻¹ neighbours are Left-tinted. Every remaining
+After Left colours the centre d, its Δ = 3·2ⁿ⁻¹ neighbours are Left-tinted. Every remaining
 untinted vertex lies inside a triangle whose three corners are all Left-tinted. Each such
 untinted region is the interior of a sub-network of depth n−2 (3 of them), n−3 (6 of them),
 …, 1 (3·2ⁿ⁻³ of them), so 3(2ⁿ⁻²−1) *Left-cornered pockets* in all. Neighbouring pockets
 share corners. The number of untinted vertices is 3·N(n−1), where N(0) = N(1) = 0 and
 N(m) = (3ᵐ⁻¹−1)/2 + 2N(m−1). That gives 0, 0, 3, 18, 75 for n = 1, …, 5.
 
-Edges between two Left-tinted vertices are irrelevant (Section 8), so tinted neighbours of c
+Edges between two Left-tinted vertices are irrelevant (Section 9), so tinted neighbours of d
 with no untinted neighbour are isolated +1's. The rest forms one connected component Bₙ.
 
 | n | Δ | isolated +1's | Bₙ: tinted + untinted vertices | value of Bₙ | Cₙ | Δ − mean(Cₙ) |
@@ -265,23 +299,23 @@ Here too t ≤ Δ, with t/Δ = 1, 1, 0.84, 0.96.
 
 ## 7. Conjectures
 
-Let c be the centre of Aₙ and Cₙ the position after Left colours it.
+Let d be the centre of Aₙ and Cₙ the position after Left colours it.
 
 1. **(Shape of the value.) The centre is the only good first move.** For every n ≥ 1,
-   every first move other than at c is dominated by the move at c, so
-   **Aₙ = {Cₙ | −Cₙ} = ±Cₙ**. *(Verified for n ≤ 4.)*
+   every first move other than at d is dominated by the move at d, so
+   **Aₙ = {Cₙ | −Cₙ} = ±Cₙ**. *(True for n ≤ 4; n = 4 via Lemmas A–B.)*
 2. **(Cₙ is nearly cold.)** Cₙ has temperature at most 1/2. It is an integer for n ≤ 3
    (3, 6, 10) and C₄ = {23 | 22}. Consequently Aₙ is, up to a tiny tepid part, the switch
    ±mₙ with mₙ = mean(Cₙ). Its stops are ±(right stop of Cₙ) and its temperature is
-   **t(Aₙ) = mean(Cₙ)**. *(n ≤ 4.)*
+   **t(Aₙ) = mean(Cₙ)**. *(True for n ≤ 4.)*
 3. **(Temperature is governed by the centre's degree.)**
-   t(Aₙ) ≤ Δ(Aₙ) = 3·2ⁿ⁻¹, with equality iff n ≤ 2. The deficit Δ − t(Aₙ) = 0, 0, 0, 2, 3/2
+   t(Aₙ) ≤ Δ(Aₙ) (= 3·2ⁿ⁻¹ for n ≥ 1), with equality iff n ≤ 2. The deficit Δ − t(Aₙ) = 0, 0, 0, 2, 3/2
    stays bounded: **t(Aₙ) = 3·2ⁿ⁻¹ − O(1)**. In terms of size, t(Aₙ) grows like
    |V|^(log 2 / log 3) ≈ |V|^0.63. That is strictly between the bounded temperatures of
    path-like planar 3-trees and the linear growth of stars and complete graphs.
-   *(Weakest of the conjectures. The supporting evidence is the two values 2 and 3/2 and the
-   pocket-sharing mechanism of Section 3. A safer version is t(Aₙ) = Θ(2ⁿ), i.e.
-   εΔ ≤ t(Aₙ) ≤ Δ for some ε > 0.)*
+   *(Weakest of the conjectures. The supporting evidence is the two values 2 and 3/2, the
+   pocket-sharing mechanism of Section 3, and Conjecture 5. A safer version is
+   t(Aₙ) = Θ(2ⁿ), i.e. εΔ ≤ t(Aₙ) ≤ Δ for some ε > 0. At depth 5, Δ = 48.)*
 4. **(Planar 3-trees obey the degree bound.)** For every planar 3-tree G, Snort on G is hot
    (a first-player win) and **t(G) ≤ Δ(G)**. This is the "temperature ≤ degree" conjecture
    of Huntemann–Nowakowski–Santos (2019) restricted to planar 3-trees. That conjecture is
@@ -303,7 +337,44 @@ three corners coloured has an integer inside (I_k(L,L,L) = (3ᵏ−1)/2,
 I_k(L,L,R) = (3ᵏ⁻¹−1)/2). k = 4 refutes both: I₄(L,L,L) = 34±5 and
 I₄(L,L,R) = {12 | 17/2±1/2}.
 
-## 8. Method and verification
+## 8. Two Snort lemmas (used at depth 4)
+
+Write a position as (alive vertices, Left-tinted set, Right-tinted set).
+
+**Lemma A (Left tints never hurt Left).** If Q′ is obtained from Q by adding Left tints and
+deleting Right-tinted vertices, then Q ≤ Q′.
+
+*Proof.* Show Q′ − Q ≥ 0, i.e. Left wins Q′ + (−Q) moving second. In −Q, a Right move is a
+blue colouring in Q and a Left move is a red colouring in Q. Left copies every move on the
+other board:
+* Right colours w red in Q′: Left colours w red in Q, which is legal because L(Q) ⊆ L(Q′).
+* Right colours x blue in Q: Left colours x blue in Q′, which is legal because Q and Q′
+  have the same Right tints on common vertices, and every vertex missing from Q′ is
+  Right-tinted in Q.
+
+After each exchange the relation "Q′ = Q plus Left tints minus Right-tinted vertices" still
+holds. A vertex that dies only in Q′ is Right-tinted in Q, so Left always has a reply. ∎
+
+**Lemma B (a Left-tinted vertex is worth at most 1 plus its tinting).** If u is Left-tinted
+in Q, then Q ≤ 1 + Q^{L@u}, where Q^{L@u} is the position after Left colours u.
+
+*Proof.* Same copying strategy between Q^{L@u} and Q. Every neighbour of u is Left-tinted in
+Q^{L@u}, so Right can never colour one there, and u therefore stays alive and Left-tinted in
+Q. When Right colours u blue in Q, Left answers by moving in the integer 1. After that the
+two boards satisfy the relation of Lemma A, and Left keeps copying. ∎
+
+Both lemmas are also checked on hundreds of random positions in `tests/test_engine.py`.
+
+**Corollary.** For any first move v and any other vertex u, let P_v⁺ be P_v with u
+additionally Left-tinted. Then P_v ≤ P_v⁺ ≤ 1 + X_{v,u}. The first step is Lemma A and the
+second is Lemma B. Hence:
+* if 1 + X_{v,u} ≤ C₄, the move at v is dominated by the centre move;
+* mean(P_v) ≤ 1 + mean(X_{v,u}).
+
+For a level-n vertex v adjacent to the centre d, N(v) ⊆ N[d], and the bound is exact:
+P_d = 1 + X_{v,d}.
+
+## 9. Method and verification
 
 * `cgt.py`: a self-contained canonical-form engine for short partizan games. It covers
   hash-consed canonical forms, removal of dominated options and bypassing of reversible ones,
@@ -314,9 +385,10 @@ I₄(L,L,R) = {12 | 17/2±1/2}.
   one end only re-tints the other with the tint it already has). Positions are then split
   into connected components and their values summed. Components are memoised up to the
   automorphisms of the host graph and up to colour swap (which negates the value).
-* `csrc/snort.cpp`: the same algorithm in C++ for speed (depth 4 explores about NCOMP4
-  distinct components). `snortc.py` imports its output into `cgt.py`. By default it
-  re-canonicalises every node, so the Python engine re-checks the C++ result.
+* `csrc/snort.cpp`: the same algorithm in C++ for speed, with compact hash tables (about
+  80 bytes per memoised component). `snortc.py` imports its output into `cgt.py`. By
+  default it re-canonicalises every node, so the Python engine re-checks the C++ result.
+  The exact depth-4 computations explore about 2·10⁷ components (the level-2 first move).
 * `tests/test_engine.py` checks the engine against independent brute force:
   * outcome classes of hundreds of random Snort positions against plain minimax;
   * outcomes of disjoint unions against the sum of the canonical values;
@@ -329,7 +401,7 @@ I₄(L,L,R) = {12 | 17/2±1/2}.
 ```
 python3 tests/test_engine.py           # all checks (about a minute)
 python3 explore.py 3                   # Sections 2 table, depths 0–3 (seconds)
-python3 explore.py 4                   # adds depth 4 (C++; DEPTH4_TIME, a few GB of RAM)
+python3 depth4.py --exact              # depth 4 (about 1–2 h, ~4 GB RAM)
 python3 explore.py 3 --both-faces      # Section 6
 python3 blocks.py 4                    # Section 4
 python3 enumerate_3trees.py 13 > data/planar3trees.jsonl   # n = 14 adds ~1 h; stored compactly
