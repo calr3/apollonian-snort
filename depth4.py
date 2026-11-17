@@ -6,13 +6,15 @@ degree-6 vertex already generates over 10^8 distinct components.  This script
 records what *can* be established rigorously:
 
   * C4, the position after Left colours the centre d, exactly;
-  * for every other first move v, the cheap position X_v obtained when Left
-    has coloured both v and d; by Lemmas A and B below, P_v <= 1 + X_v, where
-    P_v is the position after Left colours v.  If 1 + X_v <= C4 the move at v
-    is dominated by the centre move;
+  * for every other first move v and every "hub" u among the seven vertices of
+    level <= 2, the cheap position X_{v,u} obtained when Left has coloured both
+    v and u.  By Lemmas A and B below, P_v <= 1 + X_{v,u}, where P_v is the
+    position after Left colours v.  If 1 + X_{v,u} <= C4 for some u, the move at
+    v is dominated by the centre move, and in any case
+    mean(P_v) <= 1 + min_u mean(X_{v,u});
   * exact values of the cheaper first moves (corner and level 2) if requested;
   * bounds on the temperature:  mean(C4) <= t(A4) <= max over Left first moves
-    P of mean(P), with mean(P_v) <= 1 + mean(X_v) when P_v is not known exactly.
+    P of mean(P), using the bound above when P_v is not known exactly.
 
 Lemma A (monotonicity).  Adding Left tints to vertices and deleting
 Right-tinted vertices never decreases the value.
@@ -22,7 +24,8 @@ Both are proved by mirror strategies (see README) and are checked on random
 positions in tests/test_engine.py.
 
 usage: python3 depth4.py [--exact]      (--exact adds the corner and level-2
-                                          moves; a few minutes, ~3 GB RAM)
+                                          moves: ~15 min, ~3 GB RAM; the hub
+                                          bounds take ~10 min per class)
 """
 
 from __future__ import annotations
@@ -57,8 +60,7 @@ def main():
         return (a, L & a, 0)
 
     C4 = snortc.evaluate(g, [after_left(d)], G, trust=True, big=True)[0]
-    others = [v for v in reps if v != d]
-    X = dict(zip(others, snortc.evaluate(g, [after_left(v, d) for v in others], G, trust=True, big=True)))
+    hubs = list(range(7))  # corners, centre, level-2 vertices
     P = {}
     if exact:
         for v in (0, 4):  # corner and level-2 moves
@@ -66,6 +68,8 @@ def main():
 
     rows = []
     mean_bound = G.mean(C4)
+    # Left stop of A4 = max over Left options of their Right stop; R(P) <= mean(P)
+    stop_bound = G.stops(C4)[1]
     for v in reps:
         row = {"vertex": v, "orbit_size": len(orbit[v]), "level": info["level"][v],
                "degree": g.degree(v), "adjacent_to_centre": bool(g.adj[d] >> v & 1)}
@@ -78,12 +82,23 @@ def main():
                        temperature=fmt(G.temperature(P[v])),
                        status="exact; dominated by C4" if dom else "exact; NOT dominated by C4")
             mean_bound = max(mean_bound, G.mean(P[v]))
+            stop_bound = max(stop_bound, G.stops(P[v])[1])
         else:
-            b = G.add(G.ONE, X[v])
-            dom = G.le(b, C4)
-            row.update(X_v=G.show(X[v]), mean_upper_bound=fmt(1 + G.mean(X[v])),
-                       status="dominated by C4 (1 + X_v <= C4)" if dom else "unresolved")
-            mean_bound = max(mean_bound, 1 + G.mean(X[v]))
+            best, dom_hub = None, None
+            for u in hubs:
+                if u == v:
+                    continue
+                x = snortc.evaluate(g, [after_left(v, u)], G, trust=True, big=True)[0]
+                b = 1 + G.mean(x)
+                if best is None or b < best[0]:
+                    best = (b, u)
+                if dom_hub is None and G.le(G.add(G.ONE, x), C4):
+                    dom_hub = u
+            row.update(mean_upper_bound=fmt(best[0]), best_hub=best[1],
+                       status=(f"dominated by C4 (1 + X_v,u <= C4 with u = {dom_hub})"
+                               if dom_hub is not None else "unresolved"))
+            mean_bound = max(mean_bound, best[0])
+            stop_bound = max(stop_bound, best[0])
         rows.append(row)
         print(row, flush=True)
     summary = {
@@ -91,9 +106,11 @@ def main():
         "temperature_lower_bound": fmt(G.mean(C4)),
         "temperature_upper_bound": fmt(mean_bound),
         "left_stop_lower_bound": fmt(G.stops(C4)[1]),
+        "left_stop_upper_bound": fmt(stop_bound),
         "first_moves": rows,
     }
     print(summary["temperature_lower_bound"], "<= t(A4) <=", summary["temperature_upper_bound"])
+    print(summary["left_stop_lower_bound"], "<= Left stop of A4 <=", summary["left_stop_upper_bound"])
     if exact:
         with open("data/depth4.json", "w") as f:
             json.dump(summary, f, indent=1)
