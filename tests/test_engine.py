@@ -237,6 +237,49 @@ def test_planar3tree_counts():
     assert counts == [1, 1, 1, 1, 3, 7, 24]
 
 
+def _norm(alive, L, R):
+    dead = L & R
+    alive &= ~dead
+    return alive, L & alive, R & alive
+
+
+def test_lemma_monotonicity():
+    """Adding Left tints and deleting Right-tinted vertices never hurts Left."""
+    rng = random.Random(11)
+    g = GAMES
+    for trial in range(300):
+        n = rng.randint(2, 9)
+        G = random_graph(n, rng.choice([0.3, 0.5]), rng)
+        alive, L, R = random_position(G, rng, rng.randint(0, 3))
+        if not alive:
+            continue
+        extra_L = sum(1 << v for v in bits(alive) if rng.random() < 0.3)
+        drop_R = sum(1 << v for v in bits(alive & R) if rng.random() < 0.3)
+        a2, l2, r2 = _norm(alive & ~drop_R, L | extra_L, R)
+        s = Snort(G, g)
+        assert g.le(s.value(alive, L, R), s.value(a2, l2, r2)), trial
+
+
+def test_lemma_tinted_vertex():
+    """If u is Left-tinted in Q then Q <= 1 + (Q after Left colours u)."""
+    rng = random.Random(12)
+    g = GAMES
+    count = 0
+    for trial in range(600):
+        n = rng.randint(2, 9)
+        G = random_graph(n, rng.choice([0.3, 0.5]), rng)
+        alive, L, R = random_position(G, rng, rng.randint(1, 3))
+        cand = list(bits(alive & L))
+        if not cand:
+            continue
+        u = rng.choice(cand)
+        a2, l2, r2 = _norm(alive & ~(1 << u), (L | G.adj[u]) & alive & ~(1 << u), R)
+        s = Snort(G, g)
+        assert g.le(s.value(alive, L, R), g.add(g.ONE, s.value(a2, l2, r2))), trial
+        count += 1
+    assert count > 100
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):
