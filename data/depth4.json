@@ -1,0 +1,111 @@
+{
+ "C4": "45/2\u00b11/2",
+ "temperature_lower_bound": "45/2",
+ "temperature_upper_bound": "205/8",
+ "left_stop_lower_bound": "22",
+ "first_moves": [
+  {
+   "vertex": 0,
+   "orbit_size": 3,
+   "level": 0,
+   "degree": 17,
+   "adjacent_to_centre": true,
+   "value": "{{{39 | {67/2\u00b11/2 | 30}} | 45/2\u00b11/2} | 5}",
+   "mean": "543/32",
+   "temperature": "383/32",
+   "status": "exact; dominated by C4"
+  },
+  {
+   "vertex": 3,
+   "orbit_size": 1,
+   "level": 1,
+   "degree": 24,
+   "adjacent_to_centre": false,
+   "value": "45/2\u00b11/2",
+   "mean": "45/2",
+   "temperature": "1/2",
+   "status": "centre move C4"
+  },
+  {
+   "vertex": 4,
+   "orbit_size": 3,
+   "level": 2,
+   "degree": 12,
+   "adjacent_to_centre": true,
+   "value": "{{{{38 | 67/2\u00b11/2} | 61/2\u00b11/2} | {{26 | 45/2\u00b11/2} | 29/2\u00b11/2}} | -5, \u00b1({27/2\u00b11/2 | 7})}",
+   "mean": "85/8",
+   "temperature": "125/8",
+   "status": "exact; dominated by C4"
+  },
+  {
+   "vertex": 7,
+   "orbit_size": 3,
+   "level": 3,
+   "degree": 6,
+   "adjacent_to_centre": false,
+   "X_v": "{63/2\u00b1(1\u00b11/2) | {{24\u00b11 | 41/2\u00b1(1\u00b11/2)} | {15 | 23/2\u00b11/2}}}",
+   "mean_upper_bound": "205/8",
+   "status": "unresolved"
+  },
+  {
+   "vertex": 8,
+   "orbit_size": 6,
+   "level": 3,
+   "degree": 6,
+   "adjacent_to_centre": true,
+   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | 23} | {43/2\u00b11/2 | 10\u00b1(7/2\u00b11/2)}}",
+   "mean_upper_bound": "373/16",
+   "status": "unresolved"
+  },
+  {
+   "vertex": 16,
+   "orbit_size": 3,
+   "level": 4,
+   "degree": 3,
+   "adjacent_to_centre": false,
+   "X_v": "{{65/2\u00b11/2 | 29} | {43/2\u00b11/2, {24\u00b11 | 35/2\u00b1(1/2*)} | {15 | 9*}}}",
+   "mean_upper_bound": "99/4",
+   "status": "unresolved"
+  },
+  {
+   "vertex": 17,
+   "orbit_size": 6,
+   "level": 4,
+   "degree": 3,
+   "adjacent_to_centre": false,
+   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | {{65/2\u00b11/2 | 29} | {51/2\u00b1(1/2*) | 22*}}, {59/2\u00b11/2 | 25*}} | {43/2\u00b11/2 | {27/2\u00b11/2 | 9*}}}",
+   "mean_upper_bound": "395/16",
+   "status": "unresolved"
+  },
+  {
+   "vertex": 19,
+   "orbit_size": 6,
+   "level": 4,
+   "degree": 3,
+   "adjacent_to_centre": true,
+   "X_v": "43/2\u00b11/2",
+   "mean_upper_bound": "45/2",
+   "status": "dominated by C4 (1 + X_v <= C4)"
+  },
+  {
+   "vertex": 20,
+   "orbit_size": 6,
+   "level": 4,
+   "degree": 3,
+   "adjacent_to_centre": true,
+   "X_v": "43/2\u00b11/2",
+   "mean_upper_bound": "45/2",
+   "status": "dominated by C4 (1 + X_v <= C4)"
+  },
+  {
+   "vertex": 21,
+   "orbit_size": 6,
+   "level": 4,
+   "degree": 3,
+   "adjacent_to_centre": false,
+   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | 23} | {43/2\u00b11/2 | 10\u00b1(7/2\u00b11/2)}}",
+   "mean_upper_bound": "373/16",
+   "status": "unresolved"
+  }
+ ]
+}
