@@ -36,8 +36,10 @@ def table(rows, title):
 
 
 def main():
-    table(load("data/planar3trees.jsonl"), "All planar 3-trees (exhaustive, up to isomorphism)")
-    table(load("data/random_apollonian.jsonl") + load("data/random_apollonian_large.jsonl"),
+    table(load("data/planar3trees.jsonl") + load("data/planar3trees_14.jsonl"),
+          "All planar 3-trees (exhaustive, up to isomorphism)")
+    table(load("data/random_apollonian.jsonl") + load("data/random_apollonian_large.jsonl")
+          + load("data/random_apollonian_xl.jsonl"),
           "Random Apollonian networks (uniform random face at each step)")
 
 

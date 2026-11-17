@@ -67,9 +67,12 @@ From depth 2 on, the centre is the unique vertex of maximum degree, Δ(Aₙ) = 3
 *Mean* is 0 throughout. 𝒩 means the first player wins. Depth 5 has 124 vertices and is out of
 reach of the exhaustive method used here (Section 8).
 
-Depths 0–2 are instances of a known fact: a graph on m+1 vertices with a vertex adjacent to
-all others has Snort value ±m (Huntemann–Nowakowski–Santos 2019). A3 is the first case
-without such a vertex, and its value ±10 falls below Δ = 12.
+Depths 0–2 are instances of a simple fact, also noted by Huntemann–Nowakowski–Santos: a
+graph on m+1 vertices with a vertex u adjacent to all others has Snort value ±m. Proof: any
+position P with k uncoloured vertices satisfies P ≤ k, by induction (every P^L has k−1
+vertices, so P^L ≤ k−1 < k, and the integer k has no Right option). Colouring u leaves m
+Left-tinted vertices, i.e. the integer m, and every other Left option is ≤ m, hence
+dominated. A3 is the first case without such a vertex, and its value ±10 falls below Δ = 12.
 
 ### Left's first moves
 
@@ -98,8 +101,8 @@ After Left colours the centre c, its Δ = 3·2ⁿ⁻¹ neighbours are Left-tinte
 untinted vertex lies inside a triangle whose three corners are all Left-tinted. Each such
 untinted region is the interior of a sub-network of depth n−2 (3 of them), n−3 (6 of them),
 …, 1 (3·2ⁿ⁻³ of them), so 3(2ⁿ⁻²−1) *Left-cornered pockets* in all. Neighbouring pockets
-share corners. The number of untinted vertices is 3·N(n−1), where N(1) = 0 and N(m) =
-(3ᵐ⁻¹−1)/2 + 2N(m−1). That gives 0, 0, 3, 18, 75 for n = 1, …, 5.
+share corners. The number of untinted vertices is 3·N(n−1), where N(0) = N(1) = 0 and
+N(m) = (3ᵐ⁻¹−1)/2 + 2N(m−1). That gives 0, 0, 3, 18, 75 for n = 1, …, 5.
 
 Edges between two Left-tinted vertices are irrelevant (Section 8), so tinted neighbours of c
 with no untinted neighbour are isolated +1's. The rest forms one connected component Bₙ.
@@ -113,10 +116,10 @@ with no untinted neighbour are isolated +1's. The rest forms one connected compo
 
 B₃ is a hexagon a–x–b–y–c–z (tinted corners a, b, c alternating with untinted x, y, z), with a
 tinted pendant on each of x, y, z. Right's move at a pocket's centre kills all three of its
-tinted corners at once, so in isolation a pocket costs Left about half of its corners. A lone pocket T_k
-(Section 4) has mean 3/2, 3/2, 5/4 against 3 tinted corners. But pockets share corners, and
-the total *deficit* Δ − mean(Cₙ) is only 2 at n = 3 (three pockets) and 3/2 at n = 4 (nine
-pockets). It does not grow with the number of pockets.
+tinted corners at once, so in isolation a pocket costs Left about half of its corners. A lone
+pocket T_k (Section 4) has mean 3/2, 3/2, 5/4 against 3 tinted corners. But pockets share
+corners, and the total *deficit* Δ − mean(Cₙ) is only 2 at n = 3 (three pockets) and 3/2 at
+n = 4 (nine pockets). So far it does not grow with the number of pockets.
 
 ## 4. Building blocks
 
@@ -128,7 +131,20 @@ Two families of sub-games recur inside these positions:
   Each corner is coloured by Left (L), by Right (R) or is dead (0). Once a separating triangle
   is resolved, its inside is an independent summand with exactly this value.
 
-BLOCKS_TABLE
+| block | k = 1 | k = 2 | k = 3 | k = 4 |
+|---|---|---|---|---|
+| T_k (pocket) | 3/2±3/2 | 3/2±9/2 | {10 \| −15/2±1/2} | not computed |
+| I_k(0, 0, 0) (open interior) | * | ±3 | ±(15/2±1/2) | not computed |
+| I_k(0, 0, L) | 1 | 5/2±1/2 | {21/2±1/2 \| 2} | {{31 \| 45/2±1/2} \| 5} |
+| I_k(0, L, L) | 1 | 4 | {12 \| 17/2±1/2} | {67/2±1/2 \| 37/2±({6±1/2 \| 5/2})} |
+| I_k(L, L, L) | 1 | 4 | 13 | **34±5** |
+| I_k(L, L, R) | 0 | 1 | 4 | {12 \| 17/2±1/2} |
+| I_k(0, L, R) | 0 | 0 | 0 | 0 |
+
+The remaining cases follow by colour symmetry, e.g. I_k(L, R, R) = −I_k(L, L, R). Means and
+temperatures at k = 4: I₄(0,0,L) has m = 127/8, t = 87/8; I₄(0,L,L) has m = 26, t = 15/2;
+I₄(L,L,L) has m = 34, t = 5; I₄(L,L,R) has m = 41/4, t = 7/4. T₄ and I₄(0,0,0) are as large
+as A₄ itself and were not computed.
 
 Observations:
 
@@ -137,13 +153,21 @@ Observations:
   coloured corners, so all are dead. No edge joins a vertex to its mirror image, and the
   reflection swaps L-tints with R-tints. The second player therefore wins by answering a move
   at v with the opposite colour at its mirror image.
-* **I_k(L, L, L) = (3ᵏ−1)/2**: Left gets every interior vertex (1, 4, 13, BLOCK_LLL4).
-  For k ≤ 3 this is trivial, because every interior vertex touches a corner and so is
-  Left-tinted. k = 4 is the first case with untinted interior vertices (6 of them).
-* **I_k(L, L, R) = (3ᵏ⁻¹−1)/2**: exactly the interior of a network one level shallower
-  (0, 1, 4, BLOCK_LLR4).
-* The *open* interior I_k(0, 0, 0) (Aₖ minus its outer triangle) is *, ±3, ±(15/2±1/2),
-  BLOCK_0004 for k = 1, …, 4.
+* **Mixed corners split (theorem).** If the corners carry both colours, the centre of the
+  triangle is adjacent to both and dies. Its inside then falls apart into three independent
+  sub-interiors, so I_k(L, L, R) = I_{k−1}(0, L, L) + 2·I_{k−1}(0, L, R) = I_{k−1}(0, L, L).
+  So the essential blocks are T_k, I_k(0,0,0), I_k(0,0,L), I_k(0,L,L) and I_k(L,L,L).
+* **Fully Left-cornered interiors are not always integers.** For k ≤ 3 every interior
+  vertex touches a corner, so I_k(L, L, L) is trivially (3ᵏ−1)/2. At k = 4 there are 6
+  untinted interior vertices, and I₄(L, L, L) = 34±5 = {39 | 29}. Left cannot secure all 40
+  vertices even moving first, and Right moving first holds Left to 29.
+* **Means track tints.** In every block above, the mean is within 2 of (number of
+  Left-tinted vertices) − (number of Right-tinted vertices): untinted regions are worth
+  about 0 on average. At k = 4: I(L,L,L) has 34 tinted vertices and mean 34; I(0,L,L) has 26
+  and mean 26; I(0,0,L) has 15 and mean 127/8. Pockets T_k have 3 and mean 3/2, 3/2, 5/4.
+  The centre-move positions Cₙ have Δ and mean Δ, Δ, Δ−2, Δ−3/2.
+* The *open* interior I_k(0, 0, 0) (Aₖ minus its outer triangle) is *, ±3, ±(15/2±1/2) for
+  k = 1, 2, 3.
 
 ## 5. Context: all planar 3-trees
 
@@ -211,13 +235,18 @@ Let c be the centre of Aₙ and Cₙ the position after Left colours it.
    restricted to planar 3-trees. That conjecture is false for general graphs: Huntemann and
    Maciosowski (2024) give caterpillars with t = 2Δ − 3. *(Verified exhaustively for
    |V| ≤ 13 and on 1,000 random examples with |V| ≤ 26.)*
-5. **(Fully coloured triangles have cold insides.)** If all three corners of a separating
-   triangle are coloured, its inside is an integer. In particular
-   I_k(L, L, L) = (3ᵏ−1)/2 and I_k(L, L, R) = (3ᵏ⁻¹−1)/2 for all k. *(k ≤ BLOCK_KMAX.)*
-   A *dead* corner can leave the inside hot: I_k(0, L, L) and I_k(0, 0, L) are hot from
-   k = 3, and I_k(0, 0, 0) from k = 2.
+5. **(Means are tint counts up to O(1).)** For the positions arising in Aₙ (pockets,
+   resolved interiors, Cₙ), |mean − (#Left-tinted − #Right-tinted)| stays bounded
+   independently of the depth. All computed cases are within 2. Conjecture 3 is the special
+   case Cₙ. This fails for general graphs: a Left-tinted vertex with many untinted leaves is
+   worth far more than 1. So the claim is specific to these triangulated pockets.
 6. **(Open interiors.)** The open interior I_k(0, 0, 0) is a symmetric switch whose
-   temperature (0, 3, 15/2, BLOCK_0004T) also grows like 2ᵏ.
+   temperature grows like 2ᵏ (0, 3, 15/2 for k = 1, 2, 3).
+
+*Refuted along the way.* From k ≤ 3 it was tempting to conjecture that a triangle with all
+three corners coloured has an integer inside (I_k(L,L,L) = (3ᵏ−1)/2,
+I_k(L,L,R) = (3ᵏ⁻¹−1)/2). k = 4 refutes both: I₄(L,L,L) = 34±5 and
+I₄(L,L,R) = {12 | 17/2±1/2}.
 
 ## 8. Method and verification
 

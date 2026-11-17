@@ -37,7 +37,8 @@ def analyse(depth: int, games: Games, both_faces=False, use_python=False):
         s = Snort(graph, games)
         vals = [s.value(*p) for p in positions]
     else:
-        vals = snortc.evaluate(graph, positions, games, trust=depth >= 4)
+        vals = snortc.evaluate(graph, positions, games, trust=depth >= 4, big=graph.n > 30,
+                               progress=graph.n > 30)
     elapsed = time.time() - t0
     v = vals[0]
     th = games.thermograph(v)

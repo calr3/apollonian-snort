@@ -17,18 +17,30 @@ from cgt import Games
 from snort import Graph
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-BIN = os.path.join(HERE, "csrc", "snortc")
+SRC = os.path.join(HERE, "csrc", "snort.cpp")
+# small build: 32 MB comparison cache (tests, small graphs);
+# big build: 1 GB cache and native optimisation (depth-4 sized jobs)
+BUILDS = {
+    False: (os.path.join(HERE, "csrc", "snortc"), ["-O2", "-DLE_CACHE_LOG=22"]),
+    True: (os.path.join(HERE, "csrc", "snortc_big"), ["-O3", "-march=native", "-DLE_CACHE_LOG=27"]),
+}
 
 
-def build():
-    src = os.path.join(HERE, "csrc", "snort.cpp")
-    if not os.path.exists(BIN) or os.path.getmtime(BIN) < os.path.getmtime(src):
-        subprocess.check_call(["g++", "-O2", "-std=c++17", "-DLE_CACHE_LOG=22", "-o", BIN, src])
+def build(big=False):
+    path, flags = BUILDS[big]
+    if not os.path.exists(path) or os.path.getmtime(path) < os.path.getmtime(SRC):
+        subprocess.check_call(["g++", "-std=c++17", *flags, "-o", path, SRC])
+    return path
 
 
-def evaluate(graph: Graph, positions, games: Games, autos=None, trust=False, log=None):
-    """Canonical values (ids in `games`) of the given positions [(alive, L, R)]."""
-    build()
+def evaluate(graph: Graph, positions, games: Games, autos=None, trust=False, log=None, big=False,
+             progress=False):
+    """Canonical values (ids in `games`) of the given positions [(alive, L, R)].
+
+    The binary's progress messages are passed to stderr if `progress`, written to the
+    file object `log` if given, and discarded otherwise.
+    """
+    BIN = build(big)
     if autos is None:
         autos = graph.automorphisms()
     lines = [f"{graph.n} {len(graph.edges)}"]
@@ -37,8 +49,9 @@ def evaluate(graph: Graph, positions, games: Games, autos=None, trust=False, log
     lines += [" ".join(map(str, p)) for p in autos]
     lines.append(str(len(positions)))
     lines += [f"{a} {l} {r}" for a, l, r in positions]
-    proc = subprocess.run([BIN], input="\n".join(lines) + "\n", capture_output=True, text=True, check=True)
-    if log is not None:
+    proc = subprocess.run([BIN], input="\n".join(lines) + "\n", stdout=subprocess.PIPE,
+                          stderr=None if progress else subprocess.PIPE, text=True, check=True)
+    if log is not None and not progress:
         log.write(proc.stderr)
     return import_dag(proc.stdout, games, trust)
 

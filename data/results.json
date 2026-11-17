@@ -193,7 +193,7 @@
   "canonical_subpositions": 22,
   "birthday": 11,
   "left_moves_in_canonical_form": 1,
-  "seconds": 0.03,
+  "seconds": 0.05,
   "left_moves": [
    {
     "vertex": 0,
