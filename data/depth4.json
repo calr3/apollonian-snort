@@ -1,8 +1,15 @@
 {
  "C4": "45/2\u00b11/2",
+ "A4": "\u00b1(45/2\u00b11/2)",
+ "A4_temperature": "45/2",
+ "A4_stops": [
+  "22",
+  "-22"
+ ],
  "temperature_lower_bound": "45/2",
- "temperature_upper_bound": "205/8",
+ "temperature_upper_bound": "45/2",
  "left_stop_lower_bound": "22",
+ "left_stop_upper_bound": "22",
  "first_moves": [
   {
    "vertex": 0,
@@ -43,9 +50,9 @@
    "level": 3,
    "degree": 6,
    "adjacent_to_centre": false,
-   "X_v": "{63/2\u00b1(1\u00b11/2) | {{24\u00b11 | 41/2\u00b1(1\u00b11/2)} | {15 | 23/2\u00b11/2}}}",
-   "mean_upper_bound": "205/8",
-   "status": "unresolved"
+   "mean_upper_bound": "47/4",
+   "best_hub": 4,
+   "status": "dominated by C4 (second criterion: no Left option of P_v is >= C4)"
   },
   {
    "vertex": 8,
@@ -53,9 +60,9 @@
    "level": 3,
    "degree": 6,
    "adjacent_to_centre": true,
-   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | 23} | {43/2\u00b11/2 | 10\u00b1(7/2\u00b11/2)}}",
-   "mean_upper_bound": "373/16",
-   "status": "unresolved"
+   "mean_upper_bound": "91/8",
+   "best_hub": 4,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 1)"
   },
   {
    "vertex": 16,
@@ -63,9 +70,9 @@
    "level": 4,
    "degree": 3,
    "adjacent_to_centre": false,
-   "X_v": "{{65/2\u00b11/2 | 29} | {43/2\u00b11/2, {24\u00b11 | 35/2\u00b1(1/2*)} | {15 | 9*}}}",
-   "mean_upper_bound": "99/4",
-   "status": "unresolved"
+   "mean_upper_bound": "47/4",
+   "best_hub": 4,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 0)"
   },
   {
    "vertex": 17,
@@ -73,9 +80,9 @@
    "level": 4,
    "degree": 3,
    "adjacent_to_centre": false,
-   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | {{65/2\u00b11/2 | 29} | {51/2\u00b1(1/2*) | 22*}}, {59/2\u00b11/2 | 25*}} | {43/2\u00b11/2 | {27/2\u00b11/2 | 9*}}}",
-   "mean_upper_bound": "395/16",
-   "status": "unresolved"
+   "mean_upper_bound": "85/8",
+   "best_hub": 4,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 1)"
   },
   {
    "vertex": 19,
@@ -83,9 +90,9 @@
    "level": 4,
    "degree": 3,
    "adjacent_to_centre": true,
-   "X_v": "43/2\u00b11/2",
-   "mean_upper_bound": "45/2",
-   "status": "dominated by C4 (1 + X_v <= C4)"
+   "mean_upper_bound": "11",
+   "best_hub": 5,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 0)"
   },
   {
    "vertex": 20,
@@ -93,9 +100,9 @@
    "level": 4,
    "degree": 3,
    "adjacent_to_centre": true,
-   "X_v": "43/2\u00b11/2",
-   "mean_upper_bound": "45/2",
-   "status": "dominated by C4 (1 + X_v <= C4)"
+   "mean_upper_bound": "85/8",
+   "best_hub": 4,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 0)"
   },
   {
    "vertex": 21,
@@ -103,9 +110,9 @@
    "level": 4,
    "degree": 3,
    "adjacent_to_centre": false,
-   "X_v": "{{{38 | 63/2\u00b1(1\u00b11/2)} | 23} | {43/2\u00b11/2 | 10\u00b1(7/2\u00b11/2)}}",
-   "mean_upper_bound": "373/16",
-   "status": "unresolved"
+   "mean_upper_bound": "85/8",
+   "best_hub": 4,
+   "status": "dominated by C4 (1 + X_v,u <= C4 with u = 1)"
   }
  ]
 }
