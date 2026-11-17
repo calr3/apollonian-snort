@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+csrc/snortc
+csrc/snortc_fast

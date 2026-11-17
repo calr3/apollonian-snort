@@ -1,0 +1,344 @@
+[
+ {
+  "depth": 0,
+  "vertices": 3,
+  "edges": 3,
+  "max_degree": 2,
+  "value": "\u00b12",
+  "temperature": "2",
+  "mean": "0",
+  "left_stop": "2",
+  "right_stop": "-2",
+  "outcome": "N",
+  "canonical_subpositions": 6,
+  "birthday": 3,
+  "left_moves_in_canonical_form": 1,
+  "seconds": 0.05,
+  "left_moves": [
+   {
+    "vertex": 0,
+    "level": 0,
+    "degree": 2,
+    "value": "2",
+    "mean": "2",
+    "temperature": "-1",
+    "dominated_by_centre": false
+   },
+   {
+    "vertex": 1,
+    "level": 0,
+    "degree": 2,
+    "value": "2",
+    "mean": "2",
+    "temperature": "-1",
+    "dominated_by_centre": false
+   },
+   {
+    "vertex": 2,
+    "level": 0,
+    "degree": 2,
+    "value": "2",
+    "mean": "2",
+    "temperature": "-1",
+    "dominated_by_centre": false
+   }
+  ]
+ },
+ {
+  "depth": 1,
+  "vertices": 4,
+  "edges": 6,
+  "max_degree": 3,
+  "value": "\u00b13",
+  "temperature": "3",
+  "mean": "0",
+  "left_stop": "3",
+  "right_stop": "-3",
+  "outcome": "N",
+  "canonical_subpositions": 8,
+  "birthday": 4,
+  "left_moves_in_canonical_form": 1,
+  "seconds": 0.03,
+  "left_moves": [
+   {
+    "vertex": 0,
+    "level": 0,
+    "degree": 3,
+    "value": "3",
+    "mean": "3",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 1,
+    "level": 0,
+    "degree": 3,
+    "value": "3",
+    "mean": "3",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 2,
+    "level": 0,
+    "degree": 3,
+    "value": "3",
+    "mean": "3",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 3,
+    "level": 1,
+    "degree": 3,
+    "value": "3",
+    "mean": "3",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   }
+  ]
+ },
+ {
+  "depth": 2,
+  "vertices": 7,
+  "edges": 15,
+  "max_degree": 6,
+  "value": "\u00b16",
+  "temperature": "6",
+  "mean": "0",
+  "left_stop": "6",
+  "right_stop": "-6",
+  "outcome": "N",
+  "canonical_subpositions": 14,
+  "birthday": 7,
+  "left_moves_in_canonical_form": 1,
+  "seconds": 0.03,
+  "left_moves": [
+   {
+    "vertex": 0,
+    "level": 0,
+    "degree": 5,
+    "value": "7/2\u00b13/2",
+    "mean": "7/2",
+    "temperature": "3/2",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 1,
+    "level": 0,
+    "degree": 5,
+    "value": "7/2\u00b13/2",
+    "mean": "7/2",
+    "temperature": "3/2",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 2,
+    "level": 0,
+    "degree": 5,
+    "value": "7/2\u00b13/2",
+    "mean": "7/2",
+    "temperature": "3/2",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 3,
+    "level": 1,
+    "degree": 6,
+    "value": "6",
+    "mean": "6",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 4,
+    "level": 2,
+    "degree": 3,
+    "value": "3/2\u00b17/2",
+    "mean": "3/2",
+    "temperature": "7/2",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 5,
+    "level": 2,
+    "degree": 3,
+    "value": "3/2\u00b17/2",
+    "mean": "3/2",
+    "temperature": "7/2",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 6,
+    "level": 2,
+    "degree": 3,
+    "value": "3/2\u00b17/2",
+    "mean": "3/2",
+    "temperature": "7/2",
+    "dominated_by_centre": true
+   }
+  ]
+ },
+ {
+  "depth": 3,
+  "vertices": 16,
+  "edges": 42,
+  "max_degree": 12,
+  "value": "\u00b110",
+  "temperature": "10",
+  "mean": "0",
+  "left_stop": "10",
+  "right_stop": "-10",
+  "outcome": "N",
+  "canonical_subpositions": 22,
+  "birthday": 11,
+  "left_moves_in_canonical_form": 1,
+  "seconds": 0.03,
+  "left_moves": [
+   {
+    "vertex": 0,
+    "level": 0,
+    "degree": 9,
+    "value": "{23/2\u00b13/2 | 2}",
+    "mean": "27/4",
+    "temperature": "19/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 1,
+    "level": 0,
+    "degree": 9,
+    "value": "{23/2\u00b13/2 | 2}",
+    "mean": "27/4",
+    "temperature": "19/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 2,
+    "level": 0,
+    "degree": 9,
+    "value": "{23/2\u00b13/2 | 2}",
+    "mean": "27/4",
+    "temperature": "19/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 3,
+    "level": 1,
+    "degree": 12,
+    "value": "10",
+    "mean": "10",
+    "temperature": "-1",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 4,
+    "level": 2,
+    "degree": 6,
+    "value": "{{13 | 8\u00b11} | -2, \u00b14}",
+    "mean": "17/4",
+    "temperature": "25/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 5,
+    "level": 2,
+    "degree": 6,
+    "value": "{{13 | 8\u00b11} | -2, \u00b14}",
+    "mean": "17/4",
+    "temperature": "25/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 6,
+    "level": 2,
+    "degree": 6,
+    "value": "{{13 | 8\u00b11} | -2, \u00b14}",
+    "mean": "17/4",
+    "temperature": "25/4",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 7,
+    "level": 3,
+    "degree": 3,
+    "value": "{{13 | 8\u00b11} | {-13/2\u00b11/2 | -10}}",
+    "mean": "9/8",
+    "temperature": "75/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 8,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 9,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 10,
+    "level": 3,
+    "degree": 3,
+    "value": "{{13 | 8\u00b11} | {-13/2\u00b11/2 | -10}}",
+    "mean": "9/8",
+    "temperature": "75/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 11,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 12,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 13,
+    "level": 3,
+    "degree": 3,
+    "value": "{{13 | 8\u00b11} | {-13/2\u00b11/2 | -10}}",
+    "mean": "9/8",
+    "temperature": "75/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 14,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   },
+   {
+    "vertex": 15,
+    "level": 3,
+    "degree": 3,
+    "value": "{9 | {-3 | -17/2\u00b11/2}}",
+    "mean": "13/8",
+    "temperature": "59/8",
+    "dominated_by_centre": true
+   }
+  ]
+ }
+]
