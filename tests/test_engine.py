@@ -280,6 +280,51 @@ def test_lemma_tinted_vertex():
     assert count > 100
 
 
+def test_lemma_delete_left_tinted():
+    """Deleting a Left-tinted vertex never helps Left: Q >= Q - u."""
+    rng = random.Random(13)
+    g = GAMES
+    count = 0
+    for trial in range(400):
+        n = rng.randint(2, 9)
+        G = random_graph(n, rng.choice([0.3, 0.5]), rng)
+        alive, L, R = random_position(G, rng, rng.randint(1, 3))
+        cand = list(bits(alive & L))
+        if not cand:
+            continue
+        u = rng.choice(cand)
+        s = Snort(G, g)
+        assert g.le(s.value(alive & ~(1 << u), L & ~(1 << u), R), s.value(alive, L, R)), trial
+        count += 1
+    assert count > 100
+
+
+def test_closed_neighbourhood_domination():
+    """If N[v] is contained in N[x], Left's first move at x is at least as good as at v,
+    and strictly better when x has a neighbour outside N[v] (Theorem C1 in the README)."""
+    rng = random.Random(14)
+    g = GAMES
+    checked = strict = 0
+    for trial in range(400):
+        n = rng.randint(2, 9)
+        G = random_graph(n, rng.choice([0.4, 0.6, 0.8]), rng)
+        closed = [G.adj[v] | (1 << v) for v in range(n)]
+        s = Snort(G, g)
+        for v in range(n):
+            for x in range(n):
+                if x == v or closed[v] & ~closed[x]:
+                    continue
+                av, ax = G.full & ~(1 << v), G.full & ~(1 << x)
+                Pv = s.value(av, G.adj[v] & av, 0)
+                Px = s.value(ax, G.adj[x] & ax, 0)
+                assert g.le(Pv, Px), (trial, v, x)
+                checked += 1
+                if closed[x] & ~closed[v]:
+                    assert Pv != Px, (trial, v, x)
+                    strict += 1
+    assert checked > 200 and strict > 100
+
+
 if __name__ == "__main__":
     for name, fn in list(globals().items()):
         if name.startswith("test_"):

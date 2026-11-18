@@ -138,7 +138,7 @@ untinted region is the interior of a sub-network of depth n−2 (3 of them), n�
 share corners. The number of untinted vertices is 3·N(n−1), where N(0) = N(1) = 0 and
 N(m) = (3ᵐ⁻¹−1)/2 + 2N(m−1). That gives 0, 0, 3, 18, 75 for n = 1, …, 5.
 
-Edges between two Left-tinted vertices are irrelevant (Section 9), so tinted neighbours of d
+Edges between two Left-tinted vertices are irrelevant (Section 10), so tinted neighbours of d
 with no untinted neighbour are isolated +1's. The rest forms one connected component Bₙ.
 
 | n | Δ | isolated +1's | Bₙ: tinted + untinted vertices | value of Bₙ | Cₙ | Δ − mean(Cₙ) |
@@ -301,13 +301,16 @@ Here too t ≤ Δ, with t/Δ = 1, 1, 0.84, 0.96.
 
 Let d be the centre of Aₙ and Cₙ the position after Left colours it.
 
-1. **(Shape of the value.) The centre is the only good first move.** For every n ≥ 1,
-   every first move other than at d is dominated by the move at d, so
-   **Aₙ = {Cₙ | −Cₙ} = ±Cₙ**. *(True for n ≤ 4; n = 4 via Lemmas A–B.)*
+1. **(Shape of the value.) The centre is the only good first move.** For every n ≥ 2,
+   every first move other than at d is strictly dominated by the move at d, so
+   **Aₙ = {Cₙ | −Cₙ} = ±Cₙ**. *(True for 2 ≤ n ≤ 4. For every n it holds for the 3ⁿ⁻¹
+   level-n vertices, about two thirds of the board; see Section 9.)* This concerns
+   domination, not which moves win: the corner move also wins for n = 2, 3, 4.
 2. **(Cₙ is nearly cold.)** Cₙ has temperature at most 1/2. It is an integer for n ≤ 3
    (3, 6, 10) and C₄ = {23 | 22}. Consequently Aₙ is, up to a tiny tepid part, the switch
    ±mₙ with mₙ = mean(Cₙ). Its stops are ±(right stop of Cₙ) and its temperature is
-   **t(Aₙ) = mean(Cₙ)**. *(True for n ≤ 4.)*
+   **t(Aₙ) = mean(Cₙ)**. *(True for n ≤ 4. The weaker statement Cₙ > 0, i.e. the centre
+   move wins, is proved for n ≤ 7 in Section 9.)*
 3. **(Temperature is governed by the centre's degree.)**
    t(Aₙ) ≤ Δ(Aₙ) (= 3·2ⁿ⁻¹ for n ≥ 1), with equality iff n ≤ 2. The deficit Δ − t(Aₙ) = 0, 0, 0, 2, 3/2
    stays bounded: **t(Aₙ) = 3·2ⁿ⁻¹ − O(1)**. In terms of size, t(Aₙ) grows like
@@ -374,7 +377,88 @@ second is Lemma B. Hence:
 For a level-n vertex v adjacent to the centre d, N(v) ⊆ N[d], and the bound is exact:
 P_d = 1 + X_{v,d}.
 
-## 9. Method and verification
+## 9. Toward Conjecture 1 for all depths
+
+Conjecture 1 has two directions (for n ≥ 2; at n = 1 all four vertices of K₄ are equivalent):
+
+* **(D1) the centre move is best:** P_v ≤ Cₙ for every first move v;
+* **(D2) only the centre move is best:** P_v ≱ Cₙ for every v ≠ d. Together with D1, this
+  says P_v < Cₙ.
+
+These are statements about *domination*, not about which first moves *win*. A first move v
+wins when P_v ≥ 0, so that the opponent, moving next, loses. In that sense the centre is not
+the only good move: the corner move also wins at n = 2, 3, 4 (7/2±3/2, {23/2±3/2 | 2} and
+{{{39 | {67/2±1/2 | 30}} | 45/2±1/2} | 5} are all > 0). So "a first move wins iff it is
+the centre move" is false. Its "if" half, that the centre move wins, is Theorem C2 below.
+
+**Status.** Both directions hold for 2 ≤ n ≤ 4:
+* n ≤ 3 by the exact values.
+* n = 4 by Section 2 plus strictness. The corner and level-2 moves are known exactly and
+  differ from C₄. The level-3 moves have mean ≤ 47/4 or ≤ 91/8, below mean(C₄) = 45/2.
+  The level-4 moves are strictly dominated by Theorem C1 below.
+
+For general n, both directions are proved for the level-n vertices, and the rest remains
+open.
+
+**Lemma A′.** Deleting a Left-tinted vertex never helps Left: Q ≥ Q − u. *(Copying
+strategy: the two boards stay identical apart from u, which Left never needs.)*
+
+**Theorem C1 (closed-neighbourhood domination, any graph).** If N[v] ⊆ N[x], then
+P_v ≤ P_x. If moreover x has a neighbour w outside N[v], then P_v < P_x.
+
+*Proof.* Let X be the position after Left has coloured both v and x.
+* In P_x, v is Left-tinted and every other neighbour of v lies in N(x), so v is an isolated
+  +1 and P_x = 1 + X.
+* In P_v, x is Left-tinted, so P_v ≤ 1 + X by Lemma B.
+* For strictness, Left moving first wins 1 + X − P_v. In −P_v she makes the move that
+  corresponds to Right colouring w in P_v, which kills x. Call the result Y = P_v^{R@w}.
+  Adding Left tints on N(x) can only raise Y (Lemma A). The result is X with the
+  Left-tinted vertex w and some Left-tinted neighbours of w deleted, and Right tints added
+  on the rest of N(w). Both changes can only lower X (Lemma A′ and the colour mirror of
+  Lemma A). So Y ≤ X, and 1 + X − Y ≥ 1 > 0. ∎
+
+**Corollary (every n ≥ 2).** Each of the 3ⁿ⁻¹ level-n vertices v has degree 3 and lies in a
+face (x, y, z) with N[v] = {v, x, y, z} ⊆ N[x], and x has further neighbours. So the move
+at v is strictly worse than the move at each of x, y and z. Hence:
+* *(D2 for level n.)* No level-n first move is ever optimal; none survives in the canonical
+  form.
+* *(D1 and D2 for the centre's degree-3 neighbours.)* P_v < Cₙ for the 3·2ⁿ⁻² level-n
+  neighbours of d.
+* Both directions of Conjecture 1 reduce to the vertices of level ≤ n−1, which form a copy of
+  the vertex set of Aₙ₋₁. Level-n vertices make up about two thirds of Aₙ.
+
+`conjecture1.py` checks the neighbourhood conditions for n ≤ 7, and the test suite checks
+Theorem C1 on random graphs.
+
+The local argument stops here. A level-(n−1) vertex has exactly one neighbour outside N[x]
+for each face corner x. In random graphs, "exactly one private neighbour" fails to give
+domination in about half of all such pairs (1,341 of 2,754 tested). What remains, e.g.
+corner versus centre, is a global comparison: the two moves tint overlapping but
+different hubs, and Right can attack each through different pockets.
+
+**Theorem C2 (the centre move wins).** Cₙ > 0 for 1 ≤ n ≤ 7.
+
+*Proof.* For n ≤ 2, Cₙ = 3 or 6. For n ≥ 3, the 3·2ⁿ⁻² level-n neighbours of d have all
+their neighbours in N[d], so they are isolated +1's: Cₙ = k + Bₙ with k = 3·2ⁿ⁻².
+Deleting every Left-tinted vertex of Bₙ can only lower it (Lemma A′). What remains are the
+pockets of Section 3: 3·2ⁿ⁻²⁻ʲ untinted copies of the open interior I_j(0,0,0), for
+j = 1, …, n−2. Snort on an uncoloured graph satisfies G = −G, so G + G = 0, and the pockets
+sum to I_{n−2}(0,0,0); only the depth-(n−2) count, 3, is odd. Hence
+
+  Cₙ ≥ k + I_{n−2}(0,0,0).
+
+Any position satisfies Q ≥ −(number of uncoloured vertices that are not Left-tinted), by
+induction: each Right move removes one. So Cₙ ≥ 3·2ⁿ⁻² − (3ⁿ⁻²−1)/2, which is 5, 8, 11, 8
+for n = 3, …, 6. For n = 7 this bound is −25, so a sharper one is needed. Lemmas A and B at
+the centre of I₅ give I₅ ≤ 1 + 3·I₄(0,0,L), and I₅ = −I₅, so C₇ ≥ 95 − 3·I₄(0,0,L). The
+Left stop of 3·I₄(0,0,L) is 58 < 95, so C₇ > 0. ∎
+
+For general n, the same argument gives Cₙ > 0 as soon as the Left stop of the open interior
+I_{n−2}(0,0,0) is below 3·2ⁿ⁻², half the centre's degree. Conjecture 3 predicts about a
+quarter. A bound of this kind for all n is the missing ingredient. The recursive estimate
+used at n = 7 does not suffice beyond it, because Lemma B gives Left whole hubs for free.
+
+## 10. Method and verification
 
 * `cgt.py`: a self-contained canonical-form engine for short partizan games. It covers
   hash-consed canonical forms, removal of dominated options and bypassing of reversible ones,
@@ -397,12 +481,13 @@ P_d = 1 + X_{v,d}.
   * values with and without component decomposition, known values (Kₙ = ±(n−1), stars
     K₁,ₙ = ±n), thermographs, the C++ back end against the Python reference, and the
     planar-3-tree counts;
-  * Lemmas A and B (Section 8) on hundreds of random positions.
+  * Lemmas A, A′ and B and Theorem C1 (Sections 8–9) on hundreds of random positions.
 
 ```
 python3 tests/test_engine.py           # all checks (about a minute)
 python3 explore.py 3                   # Sections 2 table, depths 0–3 (seconds)
 python3 depth4.py --exact              # depth 4 (about 1–2 h, ~4 GB RAM)
+python3 conjecture1.py                 # Section 9 (about a minute)
 python3 explore.py 3 --both-faces      # Section 6
 python3 blocks.py 4                    # Section 4
 python3 enumerate_3trees.py 13 > data/planar3trees.jsonl   # n = 14 adds ~1 h; stored compactly
